@@ -1,6 +1,6 @@
 const express = require('express')
 const bodyParser = require('body-parser')
-const monedas = require('./monedas') // Importar el modelo de la bd
+const monedas = require('./monedas') 
 const app = express()
 const puerto = 3000
 const cors = require('cors');
@@ -27,14 +27,14 @@ app.post('/login', (req, res) => {
 });
 
 
-function verificarToken(req, res, next) { // middleware
+function verificarToken(req, res, next) { 
     const header = req.header('Authorization') || '';
     const token = header.split(' ')[1];
     if (!token) {
         res.status(401).json({ mensaje: 'token no proporcionado' });
     } else {
         try {
-            const payload = jwt.verify(token, secretKey); // extraer la información del token
+            const payload = jwt.verify(token, secretKey);
             next();
         }
         catch {
@@ -46,7 +46,7 @@ function verificarToken(req, res, next) { // middleware
 app.post('/convertir', async (req, res) => {
     const { origen, destino, cantidad } = req.body;
     
-    // obtener la información de la base de datos
+    
     const data = await monedas.findOne({
         where: {
             origen, destino
